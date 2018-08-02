@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+<div class="container">
+         <header class="jumbotron">
+
+                <div class="container">
+                    <h1>Welcome to Camping Grounds and Trekking spots</h1>
+                    <p>View the camping places and trekking spots people have have shared from all over the world </p>
+                    <p> <a class= "btn btn-primary btn-lg" href="/campgrounds/new">CREATE NEW CAMPGROUND</a> </p>
+                </div> 
+         </header>
+         
+         <div class="row">
+                <% info.forEach(function(camp){ %>
+                    <div class="card col-md-3 col-sm-6" onclick="  ">
+                        <div class="img-thumbnail" style="display: flex; flex-wrap: wrap;" ><img style="height: 100%; width: 100%;" src= "<%= camp.image %>" ></div>
+                         <div class="card-title"><h2><%= camp.name %></h2></div>
+                         <p><a href="/campgrounds/<%= camp._id %>" class="btn btn-primary">VIEW</a></p>
+                    </div>
+                <% }) %>
+         </div>
+</div>
+
+<% include partials/footer %>
