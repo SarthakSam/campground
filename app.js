@@ -23,7 +23,7 @@ app.get('/campgrounds',(req,res) => {
             console.log("Some error occured");
         }
         else{
-            res.render('index',{ info: campgrounds});
+            res.render('campgrounds/index',{ info: campgrounds});
         }
   });
 })
@@ -43,7 +43,7 @@ app.post('/campgrounds',(req,res) => {
 });
 
 app.get('/campgrounds/new',(req,res) => {
-    res.render('new');
+    res.render('campgrounds/new');
 });
 
 app.get('/campgrounds/:id',(req,res) => {
@@ -61,10 +61,48 @@ app.get('/campgrounds/:id',(req,res) => {
                 console.log("Some error occured");
           else{
               console.log(campground);
-            res.render('show',{ campground });
+            res.render('campgrounds/show',{ campground });
           }
               
       });
 });
+
+// ==========================
+//    COMMENTS ROUTES
+//==========================
+
+
+app.get('/campgrounds/:id/comments/new',(req,res) => {
+    Campground.findById(req.params.id, (error,campground) => {
+        if(error){
+            console.log(error);
+            res.redirect('/campgrounds/'+req.params.id);
+        }
+            
+        else{
+            res.render('comments/new',{ campground });
+        }    
+});
+});
+    
+
+app.post('/campgrounds/:id/comments',(req,res) => {
+   Campground.findById(req.params.id, (error,campground) => {
+            if(error)
+                console.log(error);
+            else{
+                Comment.create(req.body.comment, (err,comment) => {
+                      if(err)
+                          console.log(err);
+                      else{
+                          campground.comments.push(comment);
+                          campground.save();
+                          res.redirect('/campgrounds/'+req.params.id);
+                      } 
+                });
+            }    
+   });
+});
+
 
 app.listen(3000,() => {console.log("server listening at 3000")})
