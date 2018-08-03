@@ -7,4 +7,9 @@
 
 <%= campground.info %>
 
+<% campground.comments.forEach(function(comment){ %>
+    <%= comment.author %>
+    <%= comment.text %>
+<% }); %>
+
 <% include partials/footer %>
