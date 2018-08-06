@@ -1,0 +1,8 @@
+#campgrounds{
+     display: flex;
+    justify-content: space-between;
+}
+
+#campgrounds div{
+    /* margin: 2px; */
+}

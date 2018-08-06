@@ -10,9 +10,9 @@
                 </div> 
          </header>
          
-         <div class="row">
+         <div class="row" id="campgrounds">
                 <% info.forEach(function(camp){ %>
-                    <div class="card col-md-3 col-sm-6" onclick="  ">
+                    <div class="card col-md-3 col-sm-6"  >
                         <div class="img-thumbnail" style="display: flex; flex-wrap: wrap;" ><img style="height: 100%; width: 100%;" src= "<%= camp.image %>" ></div>
                          <div class="card-title"><h2><%= camp.name %></h2></div>
                          <p><a href="/campgrounds/<%= camp._id %>" class="btn btn-primary">VIEW</a></p>
