@@ -31,9 +31,24 @@ route.post('/',isAuthenticated,(req,res) => {
                       if(err)
                           console.log(err);
                       else{
-                          campground.comments.push(comment);
-                          campground.save();
-                          res.redirect('/campgrounds/'+req.params.id);
+                          let obj = {
+                                          text: req.body.commentText,
+                                          author: {
+                                                    name: req.user.username,
+                                                    id: req.user._id      
+                                                   }
+                                    }
+                          Comment.create(obj,(err,comment) => {
+                              if(err){
+                                  console.log(err);
+                              }
+                              else{
+                                  console.log(comment);
+                                campground.comments.push(comment);
+                                campground.save();
+                              }
+                              res.redirect('/campgrounds/'+req.params.id);       
+                          });
                       } 
                 });
             }    

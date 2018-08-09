@@ -12,10 +12,10 @@ route.get('/',(req,res) => {
   });
 })
 
-route.post('/',(req,res) => {
+route.post('/',isAuthenticated,(req,res) => {
     // console.log("u posted");
     let name= req.body.name, image= req.body.imageURL, info= req.body.info;
-    let obj = { name: name , image: image , info: info};
+    let obj = { name: name , image: image , info: info, postedBy: { username: req.user.username, id: req.user._id}};
 
     Campground.create(obj,function(error,newCampground){
             if(error)
@@ -26,7 +26,7 @@ route.post('/',(req,res) => {
     res.redirect('/campgrounds');
 });
 
-route.get('/new',(req,res) => {
+route.get('/new',isAuthenticated,(req,res) => {
     res.render('campgrounds/new');
 });
 
@@ -49,6 +49,13 @@ route.get('/:id',(req,res) => {
               
       });
 });
+
+function isAuthenticated(req,res,next){
+    if(req.isAuthenticated())
+      return next();
+      res.redirect('/signin');
+    }
+
 
 
 module.exports = { route };

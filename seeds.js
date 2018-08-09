@@ -27,23 +27,23 @@ let mongoose   = require('mongoose'),
                console.log(err);
              else
                 console.log("deleted");  
-                array.forEach(function(seed){
-                      Campground.create(seed,(err,campground) => {
-                          if(err)
-                          console.log(err);
-                          else{
-                              Comment.create({ text: "i want to go there ", author: "Sarthak"},(err,comment) => {
-                                  if(err)
-                                    console.log(err);
-                                  else{ 
-                                    campground.comments.push(comment);
-                                    campground.save();
-                                    console.log("created everything")
-                                  }
-                              });
-                          }
-                      });  
-                });
+                // array.forEach(function(seed){
+                //       Campground.create(seed,(err,campground) => {
+                //           if(err)
+                //           console.log(err);
+                //           else{
+                //               Comment.create({ text: "i want to go there ", author: "Sarthak"},(err,comment) => {
+                //                   if(err)
+                //                     console.log(err);
+                //                   else{ 
+                //                     campground.comments.push(comment);
+                //                     campground.save();
+                //                     console.log("created everything")
+                //                   }
+                //               });
+                //           }
+                //       });  
+                // });
         });
     }
 

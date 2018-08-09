@@ -20,7 +20,8 @@
                 </div>
                  
                   <p class="card-text"><%= campground.info %></p>
-                  <div class="d-flex justify-content-end">
+                  <div class="d-flex justify-content-between">
+                  <em>POSTED BY: <%= campground.postedBy.username %></em>
                   <span><%= campground.comments.length %> reviews</span>
                 </div>
               </div>      
@@ -36,7 +37,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-between">
-                                        <span>* * * * *<%= comment.author %></span>    
+                                        <strong><%= comment.author.name %></strong>    
                                         <span>10 days ago</span>
                                     </div>  
                                         <p><%= comment.text %></p>           
