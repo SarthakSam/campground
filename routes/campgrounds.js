@@ -13,15 +13,15 @@ route.get('/',(req,res) => {
 })
 
 route.post('/',isAuthenticated,(req,res) => {
-    // console.log("u posted");
     let name= req.body.name, image= req.body.imageURL, info= req.body.info;
     let obj = { name: name , image: image , info: info, postedBy: { username: req.user.username, id: req.user._id}};
 
     Campground.create(obj,function(error,newCampground){
             if(error)
                  console.log("Some error occured");
-            else
-                 console.log(newCampground);     
+            else{
+                //  console.log(newCampground);        
+            }
     });
     res.redirect('/campgrounds');
 });
@@ -49,6 +49,57 @@ route.get('/:id',(req,res) => {
               
       });
 });
+
+route.get('/:id/edit',isAuthenticated,isUserAndCreatorSame,(req,res) => {
+    campground = res.campground;
+    res.render('campgrounds/edit', campground);
+});
+
+route.put('/:id',isAuthenticated,isUserAndCreatorSame,(req,res) => {
+    let id = req.params.id,
+        campground = req.body.campground;
+    Campground.findByIdAndUpdate(id,campground,(err,updatedCampground) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            // console.log(updatedCampground);
+        }
+        res.redirect('/campgrounds/'+id);
+    });
+});
+
+route.delete('/:id',isAuthenticated,isUserAndCreatorSame,(req,res) => {
+    let id = req.params.id;
+    Campground.findByIdAndRemove(id,(err) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log("campground deleted");
+        }
+        res.redirect('/campgrounds/');
+    });
+});
+
+
+function isUserAndCreatorSame(req,res,next){
+        Campground.findById(req.params.id,(err,campground) => {
+                if(err){
+                        res.redirect('back');
+                        }
+                else{
+                        if(campground.postedBy.id.equals(req.user._id)){
+                            res.campground= campground;
+                            return next();
+                         }
+                        else{
+                            // res.redirect('/campgrounds/'+req.params.id);
+                            res.redirect('back');
+                         }                   
+                    }
+        });
+}
 
 function isAuthenticated(req,res,next){
     if(req.isAuthenticated())
