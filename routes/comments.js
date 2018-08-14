@@ -5,13 +5,12 @@ let Campground = require('../models/campgrounds'),
 
 
 route.get('/new',middleware.isAuthenticated,(req,res) => {
-    console.log("id",req.params.id);
     Campground.findById(req.params.id, (error,campground) => {
         if(error){
             console.log(error);
+            req.flash("error","Some error occured");
             res.redirect('/campgrounds/'+req.params.id);
         }
-            
         else{
             res.render('comments/new',{ campground });
         }    
@@ -21,13 +20,12 @@ route.get('/new',middleware.isAuthenticated,(req,res) => {
 
 route.post('/',middleware.isAuthenticated,(req,res) => {
    Campground.findById(req.params.id, (error,campground) => {
-            if(error)
+            if(error){
                 console.log(error);
+                req.flash("error","No such campground occur");
+                res.redirect('/campgrounds/'+req.params.id);   
+            }
             else{
-                Comment.create(req.body.comment, (err,comment) => {
-                      if(err)
-                          console.log(err);
-                      else{
                           let obj = {
                                           text: req.body.commentText,
                                           author: {
@@ -38,25 +36,27 @@ route.post('/',middleware.isAuthenticated,(req,res) => {
                           Comment.create(obj,(err,comment) => {
                               if(err){
                                   console.log(err);
+                                  req.flash("error","Unable to post comment");
                               }
                               else{
                                 //   console.log(comment);
                                 campground.comments.push(comment);
                                 campground.save();
-                              }
-                              res.redirect('/campgrounds/'+req.params.id);       
-                          });
-                      } 
-                });
-            }    
-   });
+                                req.flash("success","Comment posted successfully");
+                              }    
+                              res.redirect('/campgrounds/'+req.params.id);   
+                            });
+                }    
+   });      
 });
 
 route.get('/:commentId/edit',middleware.isUserAndCommentCreatorSame,(req,res) => {
         let comment = res.comment;
         Campground.findById(req.params.id, (err,campground) => {
-            if(err)
+            if(err){
+                req.flash("error","No such campground occur");
                 res.redirect("back");
+            }
             else{
                 res.render('comments/edit', { comment,campground });
             }    
@@ -68,9 +68,11 @@ route.put('/:commentId',middleware.isUserAndCommentCreatorSame,(req,res) => {
        Comment.findByIdAndUpdate(req.params.commentId,comment,(err,updatedComment) => {
             if(err){
                 console.log(err);
+                req.flash("error","Unable to update comment");
             }
             else{
                 // console.log(updatedComment);
+                req.flash("success","Comment updated successfully");
             }
             res.redirect('/campgrounds/'+req.params.id);
        });
@@ -80,6 +82,10 @@ route.delete('/:commentId',middleware.isUserAndCommentCreatorSame,(req,res) => {
     Comment.findByIdAndRemove(req.params.commentId,(err) => {
          if(err){
              console.log(err);
+             req.flash("error","Unable to deleted comment");
+         }
+         else{
+            req.flash("success","Comment deleted successfully");
          }
          res.redirect('/campgrounds/'+req.params.id);
     });

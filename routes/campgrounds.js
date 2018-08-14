@@ -14,17 +14,19 @@ route.get('/',(req,res) => {
 })
 
 route.post('/',middleware.isAuthenticated,(req,res) => {
-    let name= req.body.name, image= req.body.imageURL, info= req.body.info;
-    let obj = { name: name , image: image , info: info, postedBy: { username: req.user.username, id: req.user._id}};
+    let name= req.body.name, image= req.body.imageURL, info= req.body.info ,price = req.body.price;
+    let obj = { name: name , image: image , info: info, price: price, postedBy: { username: req.user.username, id: req.user._id}};
 
     Campground.create(obj,function(error,newCampground){
-            if(error)
-                 console.log("Some error occured");
-            else{
-                //  console.log(newCampground);        
+            if(error){
+                console.log(err);
+                req.flash("error","Unable to create new Campground");   
             }
+            else{
+              req.flash("success","Created new Campground");      
+            }
+            res.redirect('/campgrounds');
     });
-    res.redirect('/campgrounds');
 });
 
 route.get('/new',middleware.isAuthenticated,(req,res) => {
@@ -32,18 +34,20 @@ route.get('/new',middleware.isAuthenticated,(req,res) => {
 });
 
 route.get('/:id',(req,res) => {
-    // console.log(req.params.id);
-    Campground.find({},function(error,campgrounds){
-        if(error){
-            console.log("Some error occured");
-        }
-        else{
-        //    console.log(campgrounds);
-        }
-  });
+//       Campground.find({},function(error,campgrounds){
+//         if(error){
+//             console.log("Some error occured");
+//         }
+//         else{
+//         //    console.log(campgrounds);
+//         }
+//   });
       Campground.findById(req.params.id).populate("comments").exec(function(error,campground){
-          if(error)
-                console.log("Some error occured");
+          if(error||!campground){
+            console.log("Some error occured");
+            req.flash("error","unable to load campground");
+            res.redirect('/campgrounds');
+          }
           else{
             res.render('campgrounds/show',{ campground });
           }
@@ -62,9 +66,10 @@ route.put('/:id',middleware.isAuthenticated,middleware.isUserAndCreatorSame,(req
     Campground.findByIdAndUpdate(id,campground,(err,updatedCampground) => {
         if(err){
             console.log(err);
+            req.flash("error","Unable to edit campground");
         }
         else{
-            // console.log(updatedCampground);
+            req.flash("success","Campground edited sucessfully");
         }
         res.redirect('/campgrounds/'+id);
     });
@@ -75,17 +80,14 @@ route.delete('/:id',middleware.isAuthenticated,middleware.isUserAndCreatorSame,(
     Campground.findByIdAndRemove(id,(err) => {
         if(err){
             console.log(err);
+            req.flash("error","Unable to delete campground");
         }
         else{
-            console.log("campground deleted");
+            req.flash("success","Campground deleted sucessfully");
         }
         res.redirect('/campgrounds/');
     });
 });
-
-
-
-
 
 
 module.exports = { route };

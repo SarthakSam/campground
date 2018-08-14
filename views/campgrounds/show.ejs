@@ -2,7 +2,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            Yelp Camp
             <ul class="list-group">
                 <li class="list-group-item active">Category 1</li>
                 <li class="list-group-item">Category 2</li>
@@ -16,7 +15,7 @@
                 <div class="card-body">
                 <div class="d-flex justify-content-between">
                         <h5 class="card-title "><a href=""><%= campground["name"] %></a></h5>
-                        <h5 class="card-title "> $9.00/Night </h5>
+                        <h5 class="card-title "> $<%= campground.price %>/Night </h5>
                 </div>
                  
                   <p class="card-text"><%= campground.info %></p>
