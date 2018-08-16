@@ -43,6 +43,8 @@ app.use(function(req,res,next){
     next();
 });
 
+
 app.use(routes.route);
+
 
 app.listen(3000,() => {console.log("server listening at 3000")})

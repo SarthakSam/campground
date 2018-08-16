@@ -7,9 +7,24 @@
                 <li class="list-group-item">Category 2</li>
                 <li class="list-group-item">Category 3</li>
               </ul>
+              <div class="card" >
+                <div class="card-body" >
+                  <div class="image-top" id="map" style="height: 200px; width: 100%;"></div>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <form id="locationSubmitForm">
+                    <div class="form-group">
+                            <label for="location">ADD LOCATION</label>
+                            <input id="location" type="text" name="location" class="form-control"  placeholder="Add location" required >
+                    </div>
+                            <button  class="btn btn-block btn-primary" >ADD</button>
+                  </form>  
+                   <!-- <a href="/campgrounds/<%= campground.id %>/editLocation" class="btn btn-primary">Edit Location</a> -->
+                </div>
+              </div>
+
+              
         </div>
         <div class="col-md-9">
-           
             <div class="card" >
                 <img class="card-img-top img-thumbnail" src="<%= campground.image %>">
                 <div class="card-body">

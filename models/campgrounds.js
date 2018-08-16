@@ -5,6 +5,13 @@ let campgroundsSchema = new mongoose.Schema({
     image: String,
     info: String,
     price: Number,
+    location: String,
+    navigationPosition: { type:  {
+                                    Latitude: Number,
+                                    Longitude:Number
+                                 },
+                          default: undefined  
+                        },
     postedBy: {
             username: String,
             id: {
