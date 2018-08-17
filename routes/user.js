@@ -5,15 +5,21 @@
 
 const route = require('express').Router();
 let User = require('../models/user'),
+    middleware = require('../middleware');
     passport = require('passport');
 
 route.get('/',(req,res) => {
          res.render('homepage');
     });
+
+route.get('/profile',middleware.isAuthenticated,(req,res) => {
+      res.render('users/profile',{user: req.user , page: "profile" } );
+});
+
     
 
 route.get('/signup',(req,res) => {
-    res.render('users/signup');
+    res.render('users/signup',{ page: "signup"});
 });
 
 route.post('/signup',(req,res) => {
@@ -32,7 +38,7 @@ User.register(new User({email: req.body.email, username: req.body.username}),req
 });
 
 route.get('/signin',(req,res) => {
-res.render('users/signin');
+res.render('users/signin',{ page: "signin"});
 });
 
 route.post('/signin',passport.authenticate('local',{

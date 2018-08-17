@@ -9,7 +9,7 @@ route.get('/', (req, res) => {
             console.log("Some error occured while fetching all campgrounds");
         }
         else {
-            res.render('campgrounds/index', { info: campgrounds });
+            res.render('campgrounds/index', { info: campgrounds, page: "home" });
         }
     });
 })

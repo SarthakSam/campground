@@ -1,11 +1,21 @@
 <% include ../partials/header %>
 
-<h1>Signin page</h1>
 
-<form action="/signin" method="POST">
-    <input type="text" name="username" placeholder="username" value="manu">
-    <input type="password" name="password" placeholder="password" value="123456">
-    <input type="submit" >
-</form>
+<div class="signupSigninForms">
+    <h1 >Signin</h1>
+    <form action="/signin" method="post">
+        <div class="form-group">
+            <input class="form-control" type="text" name="username" placeholder="username" value="manu">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="password" value="123456">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-success btn-block">Signin</button>
+        </div>
+    </form>
+    <a href="/campgrounds">Go Back</a>
+</div>
+
 
 <% include ../partials/footer %>

@@ -13,3 +13,46 @@
      margin-top:  10px; 
  }
 
+ .mapHolder{
+     font-size: 20px;
+     font-weight: 600;
+     margin: 15px 0;
+     /* border: 1px grey groove; */
+ }
+
+.signupSigninForms h1{
+     text-align: center;
+ }
+
+ .signupSigninForms {
+     width: 30%;
+     margin: 30px auto;
+ }
+
+ .signupSigninForms div input[type= checkbox]{
+     width: 10%;
+     display: inline;
+ }
+
+
+ #username{
+     color: #ffffff;
+     font-weight: 500;
+ }
+
+ .activePage{
+        background: rgba(38, 183, 231,0.75);   
+        color: #ffffff ;
+ }
+
+ nav.navbar{
+     padding-top: 0;
+     padding-bottom: 0;
+     height: 55px;
+     font-size: 25px;
+ }
+
+ .navbar-brand{
+     font-size: 25px;
+     padding: 7.5px; 
+ }
