@@ -4,15 +4,33 @@ let Campground = require('../models/campgrounds'),
 
 
 route.get('/', (req, res) => {
-    Campground.find({}, function (error, campgrounds) {
-        if (error) {
-            console.log("Some error occured while fetching all campgrounds");
-        }
-        else {
-            res.render('campgrounds/index', { info: campgrounds, page: "home" });
-        }
-    });
-})
+    // eval(require('locus'));
+    if(req.query.searchQuery){
+        const regex = new RegExp(escapeRegex(req.query.searchQuery), 'gi');
+        Campground.find({ $or: [
+            {name: regex},
+            {"postedBy.username": regex}
+        ]}, function (error, campgrounds) {
+            if (error) {
+                console.log("Some error occured while fetching all campgrounds");
+            }
+            else {
+                res.render('campgrounds/index', { info: campgrounds, page: "home" });
+            }
+        });
+       
+    }
+    else{
+        Campground.find({}, function (error, campgrounds) {
+            if (error) {
+                console.log("Some error occured while fetching all campgrounds");
+            }
+            else {
+                res.render('campgrounds/index', { info: campgrounds, page: "home" });
+            }
+        });    
+    }
+});
 
 route.post('/', middleware.isAuthenticated, (req, res) => {
     let name = req.body.name, image = req.body.imageURL, info = req.body.info, price = req.body.price;
@@ -115,5 +133,10 @@ route.post('/:id/location', (req, res) => {
             }
     });
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 
 module.exports = { route };
