@@ -51,7 +51,8 @@
                         </p>
                         <div class="d-flex justify-content-between">
                             <em>POSTED BY:
-                                <%= campground.postedBy.username %>
+                                <%= campground.postedBy.username %>,
+                                <%= moment(campground.createdAt).fromNow() %>
                             </em>
                             <span>
                                 <%= campground.comments.length %> reviews</span>
@@ -71,25 +72,34 @@
 
                 <div class="card bg-light " style="margin-top: 10px; padding: 3%; ">
                     <div class="card-block">
-                        <div class="text-right">
-                            <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add a review</a>
+                        <div class="commentHeader">
+                                <div class="d-flex justify-content-between ">
+                                        <h1>Comments</h1>
+                                        <a class="btn btn-success btn-lg" onclick="commentBox()">Add a review</a>
+                                </div>
                         </div>
-                        <hr>
+                        
                         <% campground.comments.forEach(function(comment){ %>
-                            <div class="row">
-                                <div class="col-md-12">
+                            <hr class="hrstyle">
+                            <div class="row comments">
+                                <div class="col-md-1">
+                                    <div class="commentPhoto">
+                                            <img src="<%= profileImage %>" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-11">
                                     <div class="d-flex justify-content-between">
                                         <strong>
                                             <%= comment.author.name %>
                                         </strong>
-                                        <span>10 days ago</span>
+                                        <span><%= moment(comment.createdAt).fromNow() %></span>
                                     </div>
                                     <p>
                                         <%= comment.text %>
                                     </p>
                                 </div>
                                 <% if(currentUser&&comment.author.id.equals(currentUser._id)){ %>
-                                    <a class="btn btn-outline-warning" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">EDIT COMMENT</a>
+                                    <a class="btn btn-outline-warning editButton" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">EDIT</a>
                                     <form class="deleteButton" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                                         <button class="btn btn-outline-danger">DELETE</button>
                                     </form>

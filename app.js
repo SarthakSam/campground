@@ -13,8 +13,10 @@ seedDb                  = require('./seeds'),
 methodOverride          = require('method-override'),
 routes                  = require('./routes');
 
+
 mongoose.connect("mongodb://localhost:27017/yelpcamp_db", { useNewUrlParser: true });
 
+app.locals.moment = require('moment');
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true }));
 app.use(express.static(__dirname + '/public'));

@@ -10,12 +10,14 @@
                 </div> 
          </header>
          
-         <div class="row" id="campgrounds">
+         <div class="row" >
                 <% info.forEach(function(camp){ %>
-                    <div class="card col-md-3 col-sm-6"  >
-                        <div class="img-thumbnail" style="display: flex; flex-wrap: wrap;" ><img style="height: 100%; width: 100%;" src= "<%= camp.image %>" ></div>
-                         <div class="card-title"><h2><%= camp.name %></h2></div>
-                         <p><a href="/campgrounds/<%= camp._id %>" class="btn btn-block btn-primary">VIEW</a></p>
+                    <div class = "col-lg-4 col-sm-6 campgroundCardHolder ">
+                        <div class="card" style="height:100%" >
+                            <div class="img-thumbnail" style="display: flex; flex-wrap: wrap; height: 70%;"><img style="height: 100%; width: 100%;" src= "<%= camp.image %>" ></div>
+                             <div class="card-title"><h2><%= camp.name %></h2></div>
+                             <p><a href="/campgrounds/<%= camp._id %>" class="btn btn-block btn-primary">VIEW</a></p>
+                        </div>
                     </div>
                 <% }) %>
          </div>

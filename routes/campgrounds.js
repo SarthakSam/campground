@@ -42,7 +42,9 @@ route.get('/:id', (req, res) => {
             res.redirect('/campgrounds');
         }
         else {
-            res.render('campgrounds/show', { campground });
+          const dir = '/uploads';  
+          let profileImage = dir+"/profilePicture.jpg";
+            res.render('campgrounds/show', { campground, profileImage });
         }
 
     });
