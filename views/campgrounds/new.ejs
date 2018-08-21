@@ -3,15 +3,16 @@
   <div class="container">
 
   <h1 style="text-align: center">CREATE A NEW CAMPGROUND</h1>
-  <form action="/campgrounds" method="POST">
+  <form action="/campgrounds" method="POST" enctype="multipart/form-data">
        <div style="width: 30%;  margin: 25px auto; ">   
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="name" name="name" class="form-control"  placeholder="Enter name">
+            <input type="name" name="name" class="form-control"  placeholder="Enter name" required>
           </div>
           <div class="form-group">
-            <label for="imageURL">IMAGEURL</label>
+            <label for="imageURL">Either paste image url or upload image</label>
             <input type="text" name="imageURL" class="form-control"  placeholder="imageURL">
+            <input type="file" id="image" name="image" accept="image/*" >
           </div>
           <div class="form-group">
             <label for="price">COST</label>

@@ -1,51 +1,100 @@
 const route = require('express').Router();
 let Campground = require('../models/campgrounds'),
+    multer     = require('../middleware/multer'),
     middleware = require('../middleware');
 
 
 route.get('/', (req, res) => {
     // eval(require('locus'));
+    let perPage = 6,
+        pageQuery = parseInt(req.query.page),
+        pageNumber = pageQuery ? pageQuery : 1;
+
     if(req.query.searchQuery){
         const regex = new RegExp(escapeRegex(req.query.searchQuery), 'gi');
-        Campground.find({ $or: [
-            {name: regex},
-            {"postedBy.username": regex}
-        ]}, function (error, campgrounds) {
-            if (error) {
-                console.log("Some error occured while fetching all campgrounds");
-            }
-            else {
-                res.render('campgrounds/index', { info: campgrounds, page: "home" });
-            }
+        // Campground.find({ $or: [
+        //     {name: regex},
+        //     {"postedBy.username": regex}
+        // ]}, function (error, campgrounds) {
+        //     if (error) {
+        //         console.log("Some error occured while fetching all campgrounds");
+        //     }
+        //     else {
+        //         res.render('campgrounds/index', { info: campgrounds, page: "home" });
+        //     }
+        // });  
+
+        //Could have also used mongoose-paginate
+        Campground.find({$or: [
+                {name: regex},
+                {"postedBy.username": regex}
+            ]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
+            Campground.find({$or: [{name: regex},{"postedBy.username": regex}]}).count().exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("campgrounds/index", {
+                        info: allCampgrounds,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        page: "home"
+                    });
+                }
+            });
         });
-       
     }
     else{
-        Campground.find({}, function (error, campgrounds) {
-            if (error) {
-                console.log("Some error occured while fetching all campgrounds");
-            }
-            else {
-                res.render('campgrounds/index', { info: campgrounds, page: "home" });
-            }
-        });    
+        Campground.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
+            Campground.count().exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("campgrounds/index", {
+                        info: allCampgrounds,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        page: "home"
+                    });
+                }
+            });
+        });  
     }
 });
 
-route.post('/', middleware.isAuthenticated, (req, res) => {
+route.post('/', middleware.isAuthenticated,multer.upload.single('image'),(req, res) => {
     let name = req.body.name, image = req.body.imageURL, info = req.body.info, price = req.body.price;
+    if(!image){
+        image = '/uploads/noimage.png';
+    }
     let obj = { name: name, image: image, info: info, price: price, postedBy: { username: req.user.username, id: req.user._id } };
-
-    Campground.create(obj, function (error, newCampground) {
-        if (error) {
-            console.log(err);
-            req.flash("error", "Unable to create new Campground");
-        }
-        else {
-            req.flash("success", "Created new Campground");
-        }
-        res.redirect('/campgrounds');
-    });
+    if(req.file){
+        multer.cloudinary.uploader.upload(req.file.path, function(result) {
+            // add cloudinary url for the image to the campground object under image property
+            obj.image = result.secure_url;
+            Campground.create(obj, function (error, newCampground) {
+                if (error) {
+                    console.log(err);
+                    req.flash("error", "Unable to create new Campground");
+                }
+                else {
+                    req.flash("success", "Created new Campground");
+                }
+                res.redirect('/campgrounds');
+            });        
+        });
+    }
+    else{
+        Campground.create(obj, function (error, newCampground) {
+            if (error) {
+                console.log(err);
+                req.flash("error", "Unable to create new Campground");
+            }
+            else {
+                req.flash("success", "Created new Campground");
+            }
+            res.redirect('/campgrounds');
+        });        
+    }
 });
 
 route.get('/new', middleware.isAuthenticated, (req, res) => {
@@ -73,23 +122,55 @@ route.get('/:id/edit', middleware.isAuthenticated, middleware.isUserAndCreatorSa
     res.render('campgrounds/edit', campground);
 });
 
-route.put('/:id', middleware.isAuthenticated, middleware.isUserAndCreatorSame, (req, res) => {
+route.put('/:id', middleware.isAuthenticated, middleware.isUserAndCreatorSame,multer.upload.single('image'), (req, res) => {
     let id = req.params.id,
         campground = req.body.campground;
-    Campground.findByIdAndUpdate(id, campground, (err, updatedCampground) => {
-        if (err) {
-            console.log(err);
-            req.flash("error", "Unable to edit campground");
+        if(req.body.imageURL)
+        campground.image = req.body.imageURL;
+        if(req.file){
+            multer.cloudinary.uploader.upload(req.file.path, function(result) {
+                // add cloudinary url for the image to the campground object under image property
+                campground.image = result.secure_url;
+                Campground.findByIdAndUpdate(id, campground, (err, updatedCampground) => {
+                    if (err) {
+                        console.log(err);
+                        req.flash("error", "Unable to edit campground");
+                    }
+                    else {
+                        req.flash("success", "Campground edited sucessfully");
+                    }
+                    res.redirect('/campgrounds/' + id);
+                });                    
+            });
         }
-        else {
-            req.flash("success", "Campground edited sucessfully");
+        else{
+            Campground.findByIdAndUpdate(id, campground, (err, updatedCampground) => {
+                if (err) {
+                    console.log(err);
+                    req.flash("error", "Unable to edit campground");
+                }
+                else {
+                    req.flash("success", "Campground edited sucessfully");
+                }
+                res.redirect('/campgrounds/' + id);
+            });        
         }
-        res.redirect('/campgrounds/' + id);
-    });
 });
 
 route.delete('/:id', middleware.isAuthenticated, middleware.isUserAndCreatorSame, (req, res) => {
     let id = req.params.id;
+    Campground.findById(id,function(err,campground){
+        if(err||!campground){
+            req.flash('no such campground found');
+            res.redirect('back');
+        }
+        else{
+            if(campground.image&&campground.image.includes("cloudinary")){
+                let str = campground.image;
+                multer.cloudinary.v2.uploader.destroy(str.substring(str.lastIndexOf('/')+1,str.lastIndexOf('.')), function(error, result){console.log(result, error)});
+            }
+        }
+    });
     Campground.findByIdAndRemove(id, (err) => {
         if (err) {
             console.log(err);
