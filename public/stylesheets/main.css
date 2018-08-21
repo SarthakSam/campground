@@ -2,12 +2,12 @@
     background:rgba(23,162,184,0.8);
 }
 
-.card-img-top{
-    height: 70vh;
-}
-
 .img-thumbnail{
     height: 30vh;
+}
+
+#showPageImage{
+    height: 70vh;
 }
 
 .campgroundCardHolder{

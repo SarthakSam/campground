@@ -64,7 +64,7 @@ route.get('/', (req, res) => {
 route.post('/', middleware.isAuthenticated,multer.upload.single('image'),(req, res) => {
     let name = req.body.name, image = req.body.imageURL, info = req.body.info, price = req.body.price;
     if(!image){
-        image = '/uploads/noimage.png';
+        image = 'https://res.cloudinary.com/bvcoe/image/upload/v1534844604/noimage.png';
     }
     let obj = { name: name, image: image, info: info, price: price, postedBy: { username: req.user.username, id: req.user._id } };
     if(req.file){
@@ -165,7 +165,7 @@ route.delete('/:id', middleware.isAuthenticated, middleware.isUserAndCreatorSame
             res.redirect('back');
         }
         else{
-            if(campground.image&&campground.image.includes("cloudinary")){
+            if(campground.image&&campground.image!='https://res.cloudinary.com/bvcoe/image/upload/v1534844604/noimage.png'&&campground.image.includes("cloudinary")){
                 let str = campground.image;
                 multer.cloudinary.v2.uploader.destroy(str.substring(str.lastIndexOf('/')+1,str.lastIndexOf('.')), function(error, result){console.log(result, error)});
             }

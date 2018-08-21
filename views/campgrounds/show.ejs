@@ -34,7 +34,9 @@
             </div>
             <div class="col-md-9">
                 <div class="card">
-                    <img class="card-img-top img-thumbnail" src="<%= campground.image %>"> 
+                    <% if(campground.image!='https://res.cloudinary.com/bvcoe/image/upload/v1534844604/noimage.png') {%>
+                    <img class="card-img-top img-thumbnail" id="showPageImage" src="<%= campground.image %>"> 
+                    <% } %>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title ">
