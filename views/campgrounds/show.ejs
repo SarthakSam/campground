@@ -16,6 +16,7 @@
                             </div>
                             <hr>
                             <%} %>
+                            <% if(currentUser&&currentUser.username==campground.postedBy.username){ %>
                                 <form id="locationSubmitForm">
                                     <div class="form-group">
                                             <%  if(campground.navigationPosition){ %>
@@ -27,8 +28,7 @@
                                     </div>
                                     <button class="btn btn-block btn-primary">ADD</button>
                                 </form>
-                         <!-- </div> -->
-                <!-- </div> -->
+                                <% } %>
 
 
             </div>
@@ -77,7 +77,9 @@
                         <div class="commentHeader">
                                 <div class="d-flex justify-content-between ">
                                         <h1>Comments</h1>
+                                        <% if(currentUser){ %>
                                         <a class="btn btn-success btn-lg" onclick="commentBox()">Add a review</a>
+                                        <% } %>
                                 </div>
                         </div>
                         

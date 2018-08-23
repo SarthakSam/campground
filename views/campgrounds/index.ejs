@@ -11,7 +11,7 @@
          </header>
          
          <div class="row" >
-               <% if(info.length===0){ %>
+               <% if(searchMade&&info.length===0){ %>
                     <h2>Sorry, No campground found with this name or this author name!!</h2>
                <%  }   %>     
                 <% info.forEach(function(camp){ %>

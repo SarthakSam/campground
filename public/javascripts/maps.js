@@ -74,7 +74,7 @@ $(document).ready(function () {
           gen: '9'
         },
         success: function (data) {
-          window.obj = data.Response;
+          // window.obj = data.Response;
           if (data.Response.View.length === 0) {
             alert("Unable to add location. Plzz enter valid location or be more specific");
             return;
@@ -83,6 +83,7 @@ $(document).ready(function () {
           let locEnteredByUser = document.getElementById('location').value;
           $.post(location.pathname + '/location', { coordinates: coordinates, location: locEnteredByUser }, function (res) {
             location.reload();
+            if(res.status!=600)
             document.getElementById("mapLocation").innerText = locEnteredByUser;
             moveMapToLocation(map, coordinates);
           });

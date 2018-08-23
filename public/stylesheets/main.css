@@ -37,7 +37,7 @@
  }
 
  .signupSigninForms {
-     width: 30%;
+     width: 45%;
      margin: 30px auto;
  }
 
@@ -97,3 +97,55 @@
     border-left: 6px solid rgb(49, 235, 49); 
     padding: 20px;  
 }
+
+.coverPhoto{
+    height: 40vh;
+    /* width: 70vw; */
+}
+
+.coverPhoto img{
+    height: 100%;
+    width: 100%;
+}
+
+.profilePhoto{
+    height: 150px;
+    width: 150px;
+    position: absolute;
+    bottom: 15px;
+    left: 30px;
+    border: 5px solid #ffffff;
+    border-radius: 5px;
+}
+
+.profilePhoto img{
+    height: 100%;
+    width: 100%;
+}
+
+.profilePosts{
+    border: 1px solid lightgrey;
+    margin-top: 10px; 
+    /* min-width: 60vw; */
+} 
+
+
+.individualPost{
+    height: 20vh;
+}
+
+.individualPost img{
+    height: 18vh;
+    width: 15vw;
+    margin: 10px auto;
+}
+
+.aboutMeCard{
+    border-left: 1px solid lightgrey;
+    margin-top: 10px;
+    /* display: inline-block; */
+    height: auto; 
+    min-height: 10px; 
+    overflow: hidden; 
+}
+

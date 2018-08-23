@@ -35,6 +35,7 @@ route.get('/', (req, res) => {
                 } else {
                     res.render("campgrounds/index", {
                         info: allCampgrounds,
+                        searchMade: true,
                         current: pageNumber,
                         pages: Math.ceil(count / perPage),
                         page: "home"
@@ -51,6 +52,7 @@ route.get('/', (req, res) => {
                 } else {
                     res.render("campgrounds/index", {
                         info: allCampgrounds,
+                        searchMade: false,
                         current: pageNumber,
                         pages: Math.ceil(count / perPage),
                         page: "home"
@@ -198,18 +200,19 @@ route.get('/:id/location',(req,res) => {
     });
 });
 
-route.post('/:id/location', (req, res) => {
+route.post('/:id/location',middleware.ajaxIsAuthenticated,middleware.ajaxIsUserAndCreatorSame, (req, res) => {
     let obj = {
         location: req.body.location,
         navigationPosition: req.body.coordinates
     };
     Campground.findByIdAndUpdate(req.params.id, obj, (error, updatedCampground) => {
-        if (error) {
+        if (error||!updatedCampground) {
             console.log(error);
             res.send("unable to add location to database");
         }
          else {
              console.log("location added successfully")
+             req.flash("success","location added successfully");
                 res.send("location added successfully")
             }
     });

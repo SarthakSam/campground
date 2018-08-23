@@ -11,17 +11,23 @@ Comment                 = require("./models/comment"),
 User                    = require('./models/user'),
 seedDb                  = require('./seeds'),
 methodOverride          = require('method-override'),
-routes                  = require('./routes');
+nodemailer              = require('nodemailer');
+routes                  = require('./routes'),
+bcrypt                  = require('bcrypt-nodejs'),
+async                   = require('async'),
+crypto                  = require('crypto');
 
 
 mongoose.connect("mongodb://localhost:27017/yelpcamp_db", { useNewUrlParser: true });
 
 app.locals.moment = require('moment');
+app.set('views', __dirname + '/views');
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(methodOverride('_method'))
 app.use(flash());
+require('dotenv').config();
 // seedDb();
 
 // PASSPORT CONFIGURATION
@@ -33,7 +39,7 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
+passport.use(new localStrategy(User.authenticate()));  
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -46,7 +52,8 @@ app.use(function(req,res,next){
 });
 
 
+
 app.use(routes.route);
 
 
-app.listen(3001,() => {console.log("server listening at 3000")})
+app.listen(3000,() => {console.log("server listening at 3000")})

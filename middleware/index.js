@@ -55,6 +55,35 @@ let middleware = {
             req.flash("eror","Please Signin first");
             res.redirect("back");
         }
+    },
+
+    ajaxIsAuthenticated: function(req,res,next){
+            if(req.user){
+                return next();
+            }
+            else{
+                req.flash("error","User not authenticated")
+                res.send({message: "User not authenticated", status: 600});
+            }
+    },
+
+    ajaxIsUserAndCreatorSame: function(req,res,next){
+        Campground.findById(req.params.id,(err,campground) => {
+            if(err||!campground){
+                req.flash("error","No such campground");
+                res.send({message: "No such campground", status: 600});
+            }
+            else{
+                    if(campground.postedBy.id.equals(req.user._id)){
+                        res.campground= campground;
+                        return next();
+                     }
+                    else{
+                        req.flash("error","You are not authorised to do it")
+                        res.send({message: "You are not authorised to do it", status: 600});
+                    }                   
+                }
+    });
     }
     
 }   

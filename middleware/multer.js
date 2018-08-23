@@ -1,5 +1,8 @@
 let multer = require('multer'),
     cloudinary = require('cloudinary');
+
+ 
+require('dotenv').config();   
 var storage = multer.diskStorage({
     filename: function(req, file, callback) {
       callback(null, Date.now() + file.originalname);
@@ -14,8 +17,8 @@ var storage = multer.diskStorage({
   };
   cloudinary.config({ 
     cloud_name: 'bvcoe', 
-    api_key: '546344731792928', 
-    api_secret: 'du4hISWc6c-CA5qcto1buCWtSX8'
+    api_key: process.env.Cloudinary_key, 
+    api_secret: process.env.Cloudinary_Pass
   });
 
 module.exports = {
