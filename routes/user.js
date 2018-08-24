@@ -21,8 +21,6 @@ route.get('/profile', middleware.isAuthenticated, (req, res) => {
       res.redirect("back");
     }
     else {
-      console.log("profile",req.user);
-      console.log(req.user.coverphoto);
       res.render('users/profile', { page: "profile", usercampgrounds: campgrounds });
     }
   });
@@ -45,7 +43,7 @@ route.put('/profile/edit', middleware.isAuthenticated, (req, res) => {
   });
 });
 
-route.put('/profile/upload', middleware.isAuthenticated, multer.upload.single('image'), (req, res) => {
+route.put('/profile/upload/:id', middleware.isAuthenticated, multer.upload.single('image'), (req, res) => {
   if (req.file) {
     multer.cloudinary.uploader.upload(req.file.path, function (result) {
 
@@ -55,22 +53,27 @@ route.put('/profile/upload', middleware.isAuthenticated, multer.upload.single('i
           req.flash("error", "Unable to find user");
         }
         else {
-          if (user.coverphoto && user.coverphoto.includes("cloudinary")) {
-            let str = user.coverphoto;
-            multer.cloudinary.v2.uploader.destroy(str.substring(str.lastIndexOf('/') + 1, str.lastIndexOf('.')), function (error, result) { console.log(result, error) });
+          let str;
+          if(req.params.id==1){
+              str="coverphoto";
           }
-          req.flash("success","Photo uploaded successfully");
-          user.coverphoto = result.secure_url;
+          else{
+              str="profilephoto";
+          }
+          if (user[str] && user[str].includes("cloudinary")) {
+            multer.cloudinary.v2.uploader.destroy(user[str].substring(user[str].lastIndexOf('/') + 1, user[str].lastIndexOf('.')), function (error, result) { console.log(result, error) });
+          }
+          req.flash("success", "Photo uploaded successfully");
+          user[str] = result.secure_url;
           user.save();
         }
-        console.log(user);
         res.redirect('/profile');
       });
     });
   }
   else {
-        req.flash("error","File not recieved");
-        res.redirect("/profile");      
+    req.flash("error", "File not recieved");
+    res.redirect("/profile");
   }
 });
 
@@ -80,6 +83,11 @@ route.get('/signup', (req, res) => {
 
 route.post('/signup', (req, res) => {
   // eval(require('locus'));
+  if(!req.body.email||!req.body.username){
+    console.log("Missing credentials")
+    req.flash("error","Missing credentials");
+    return res.redirect("/signup");
+  }
   User.register(new User({ email: req.body.email, username: req.body.username }), req.body.password, function (err, user) {
     if (err) {
       req.flash("error", err.message);

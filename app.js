@@ -18,7 +18,7 @@ async                   = require('async'),
 crypto                  = require('crypto');
 
 
-mongoose.connect("mongodb://localhost:27017/yelpcamp_db", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/postit_db", { useNewUrlParser: true });
 
 app.locals.moment = require('moment');
 app.set('views', __dirname + '/views');

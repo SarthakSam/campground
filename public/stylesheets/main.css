@@ -106,6 +106,10 @@
 .coverPhoto img{
     height: 100%;
     width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat; 
+    background-size: 100% 100%;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg");
 }
 
 .profilePhoto{
@@ -121,6 +125,7 @@
 .profilePhoto img{
     height: 100%;
     width: 100%;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmtAD4XW7ZlAu9QYqomAGm_r8XrAcz-oOBNF3u4lH-F7CAdsib")
 }
 
 .profilePosts{
@@ -184,4 +189,11 @@
   top:0;
   font-size: 60px;
   color: rgb(100,250,300);
+}
+
+.changeProfilePhotoButton{
+    position: absolute;
+    right: 0;
+    width: 140px;
+    bottom: 0;
 }

@@ -2,10 +2,11 @@
 <div class="container" id="profilePage">
     <div class="row">
         <div class="col-md-12 coverPhoto" >
-            <img src="<%= currentUser.coverphoto %>" alt="https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg">
+            <img src="<%= currentUser.coverphoto %>">
             <button class="btn btn-primary changeCoverPhotoButton">Change Cover Photo</button>
             <div class="profilePhoto">
-                <img src="https://res.cloudinary.com/bvcoe/image/upload/v1531062014/aykhz4pkalyej0lmngmn.jpg" alt="">
+                <img src="<%= currentUser.profilephoto %>">
+                <button class="btn btn-primary btn-sm changeProfilePhotoButton">Change Profile Photo</button>
             </div>
         </div>
     </div>
