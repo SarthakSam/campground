@@ -14,68 +14,6 @@ route.get('/', (req, res) => {
   res.render('homepage');
 });
 
-route.get('/profile', middleware.isAuthenticated, (req, res) => {
-  Campground.find({}).where('postedBy.id').equals(req.user._id).exec(function (err, campgrounds) {
-    if (err) {
-      req.flash("error", "Something went wrong!!!!");
-      res.redirect("back");
-    }
-    else {
-      res.render('users/profile', { page: "profile", usercampgrounds: campgrounds });
-    }
-  });
-
-});
-
-route.get('/profile/edit', middleware.isAuthenticated, (req, res) => {
-  res.render('users/edit');
-});
-
-route.put('/profile/edit', middleware.isAuthenticated, (req, res) => {
-  User.findByIdAndUpdate(req.user._id, req.body.user, (err) => {
-    if (err) {
-      req.flash("error", "Unable to update profile info");
-    }
-    else {
-      req.flash("success", "Profile Info Updated successfully!!!");
-    }
-    res.redirect('/profile');
-  });
-});
-
-route.put('/profile/upload/:id', middleware.isAuthenticated, multer.upload.single('image'), (req, res) => {
-  if (req.file) {
-    multer.cloudinary.uploader.upload(req.file.path, function (result) {
-
-      User.findById(req.user._id, (err, user) => {
-        if (err || !user) {
-          console.log("unable to find user");
-          req.flash("error", "Unable to find user");
-        }
-        else {
-          let str;
-          if(req.params.id==1){
-              str="coverphoto";
-          }
-          else{
-              str="profilephoto";
-          }
-          if (user[str] && user[str].includes("cloudinary")) {
-            multer.cloudinary.v2.uploader.destroy(user[str].substring(user[str].lastIndexOf('/') + 1, user[str].lastIndexOf('.')), function (error, result) { console.log(result, error) });
-          }
-          req.flash("success", "Photo uploaded successfully");
-          user[str] = result.secure_url;
-          user.save();
-        }
-        res.redirect('/profile');
-      });
-    });
-  }
-  else {
-    req.flash("error", "File not recieved");
-    res.redirect("/profile");
-  }
-});
 
 route.get('/signup', (req, res) => {
   res.render('users/signup', { page: "signup" });
@@ -249,5 +187,8 @@ route.post('/reset/:token', function (req, res) {
   });
 });
 
+route.post('/admin',(req,res)=>{
+  res.send("admin")
+});
 
 module.exports = { route };

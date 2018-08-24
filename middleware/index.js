@@ -7,6 +7,7 @@ let middleware = {
         if(req.isAuthenticated())
           return next();
           req.flash("error","Please signin first");
+          console.log("User not authenticated");
           res.redirect('/signin');
         },
     

@@ -2,11 +2,15 @@
 <div class="container" id="profilePage">
     <div class="row">
         <div class="col-md-12 coverPhoto" >
-            <img src="<%= currentUser.coverphoto %>">
+            <img src="<%= profileOfUser.coverphoto %>">
+            <% if(profileOfUser._id.equals(currentUser._id)){ %>
             <button class="btn btn-primary changeCoverPhotoButton">Change Cover Photo</button>
+            <% } %>
             <div class="profilePhoto">
-                <img src="<%= currentUser.profilephoto %>">
+                <img src="<%= profileOfUser.profilephoto %>">
+                <% if(profileOfUser._id.equals(currentUser._id)){ %>
                 <button class="btn btn-primary btn-sm changeProfilePhotoButton">Change Profile Photo</button>
+                <% } %>
             </div>
         </div>
     </div>
@@ -14,14 +18,18 @@
     <div class="row">
         <div class="col-md-4 aboutMeCard">
             <h1>About Me</h1>
-            <p><strong>First Name </strong><%= currentUser.firstname %></p>
-            <p><strong>Last Name </strong><%= currentUser.lastname %></p>
-            <p><strong>Email Id </strong><%= currentUser.email %></p>  
-            <p><strong>Date Of Birth </strong><%= currentUser.dob %></p>
-            <p><strong>Gender </strong><%= currentUser.gender %></p>
-            <p><strong>About Me </strong><%= currentUser.about %></p>
-            <a href="/profile/edit" class="btn btn-outline-primary">Edit profile Info </a>
-            <a href="/admin" class="btn btn-outline-info">Make me admin</a>
+            <p><strong>First Name </strong><%= profileOfUser.firstname %></p>
+            <p><strong>Last Name </strong><%= profileOfUser.lastname %></p>
+            <p><strong>Email Id </strong><%= profileOfUser.email %></p>  
+            <p><strong>Date Of Birth </strong><%= profileOfUser.dob %></p>
+            <p><strong>Gender </strong><%= profileOfUser.gender %></p>
+            <p><strong>About Me </strong><%= profileOfUser.about %></p>
+            <% if(profileOfUser._id.equals(currentUser._id)){ %>
+            <a href="/profile/<%= profileOfUser._id %>/edit/" class="btn btn-outline-primary">Edit profile Info </a>
+            <form action="/admin" method="POST" style="display:inline;">
+            <button class="btn btn-outline-info">Make me admin</button>
+            </form>
+            <% } %>
         </div>
         <div class="col-md-8 profilePosts">
             <h1>My Posts</h1>

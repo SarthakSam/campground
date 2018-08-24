@@ -54,7 +54,7 @@
           <% } else {  %>
             <li class="nav-item ">
               <a class="nav-link <%= typeof page !== 'undefined' && page === 'profile' ? 'activePage' : '' %> <%= typeof page !== 'undefined' && page === 'profile' ? 'active' : '' %>"
-                href="/profile">Signed in as <span id="username"><%= currentUser.username %></span></a>
+                href="/profile/<%= currentUser._id %>">Signed in as <span id="username"><%= currentUser.username %></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link " href="/signout">signout</a>

@@ -8,87 +8,89 @@
                     <li class="list-group-item">Category 3</li>
                 </ul>
                 <!-- <div class="card "> -->
-                    <!-- <div class="card-body"> -->
-                        <%  if(campground.navigationPosition){ %>
-                            <div class="mapHolder">
-                            <div class="image-top" id="map" style="height: 200px; width: 100%;"></div>
-                            <p id="mapLocation" class="card-text"></p>
-                            </div>
-                            <hr>
-                            <%} %>
-                            <% if(currentUser&&currentUser.username==campground.postedBy.username){ %>
-                                <form id="locationSubmitForm">
-                                    <div class="form-group">
-                                            <%  if(campground.navigationPosition){ %>
-                                            <label for="location">EDIT LOCATION  CAMPGROUND</label>
-                                            <% }else{ %>
-                                            <label for="location">ADD LOCATION  CAMPGROUND</label>
+                <!-- <div class="card-body"> -->
+                <%  if(campground.navigationPosition){ %>
+                    <div class="mapHolder">
+                        <div class="image-top" id="map" style="height: 200px; width: 100%;"></div>
+                        <p id="mapLocation" class="card-text"></p>
+                    </div>
+                    <hr>
+                    <%} %>
+                        <% if(currentUser&&currentUser.username==campground.postedBy.username){ %>
+                            <form id="locationSubmitForm">
+                                <div class="form-group">
+                                    <%  if(campground.navigationPosition){ %>
+                                        <label for="location">EDIT LOCATION CAMPGROUND</label>
+                                        <% }else{ %>
+                                            <label for="location">ADD LOCATION CAMPGROUND</label>
                                             <% }  %>
-                                            <input id="location" type="text" name="location" class="form-control" placeholder="Enter location" required>
-                                    </div>
-                                    <button class="btn btn-block btn-primary">ADD</button>
-                                </form>
-                                <% } %>
+                                                <input id="location" type="text" name="location" class="form-control" placeholder="Enter location" required>
+                                </div>
+                                <button class="btn btn-block btn-primary">ADD</button>
+                            </form>
+                            <% } %>
 
 
             </div>
             <div class="col-md-9">
                 <div class="card">
                     <% if(campground.image!='https://res.cloudinary.com/bvcoe/image/upload/v1534844604/noimage.png') {%>
-                    <img class="card-img-top img-thumbnail" id="showPageImage" src="<%= campground.image %>"> 
-                    <% } %>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <h5 class="card-title ">
-                                <a href="">
-                                    <%= campground["name"] %>
-                                </a>
-                            </h5>
-                            <h5 class="card-title "> $
-                                <%= campground.price %>/Night </h5>
-                        </div>
+                        <img class="card-img-top img-thumbnail" id="showPageImage" src="<%= campground.image %>">
+                        <% } %>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title ">
+                                        <a href="">
+                                            <%= campground["name"] %>
+                                        </a>
+                                    </h5>
+                                    <h5 class="card-title "> $
+                                        <%= campground.price %>/Night
+                                    </h5>
+                                </div>
 
-                        <p class="card-text">
-                            <%= campground.info %>
-                        </p>
-                        <div class="d-flex justify-content-between">
-                            <em>POSTED BY:
-                                <%= campground.postedBy.username %>,
-                                <%= moment(campground.createdAt).fromNow() %>
-                            </em>
-                            <span>
-                                <%= campground.comments.length %> reviews</span>
-                        </div>
-                        <br>
-                        <% if(currentUser&&campground.postedBy.id.equals(currentUser._id)) {%>
-                            <div>
-                                <a class="btn btn-outline-warning" href="/campgrounds/<%= campground._id %>/edit">UPDATE</a>
-                                <form class="deleteButton" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-                                    <button class="btn btn-outline-danger">DELETE</button>
-                                </form>
-
+                                <p class="card-text">
+                                    <%= campground.info %>
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <em>POSTED BY:
+                                        <%= campground.postedBy.username %>,
+                                            <%= moment(campground.createdAt).fromNow() %>
+                                    </em>
+                                    <span>
+                                        <%= campground.comments.length %> reviews</span>
+                                </div>
+                                <br>
+                                <div>
+                                    <% if(currentUser&&campground.postedBy.id.equals(currentUser._id)) {%>
+                                        <a class="btn btn-outline-warning" href="/campgrounds/<%= campground._id %>/edit">UPDATE</a>
+                                        <form class="deleteButton" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                                            <button class="btn btn-outline-danger">DELETE</button>
+                                        </form>
+                                        <% } %>
+                                            <a class="btn btn-outline-primary" href="/profile/<%= campground.postedBy.id %>">View
+                                                Profile of <%= campground.postedBy.username %></a>
+                                </div>
                             </div>
-                            <% } %>
-                    </div>
                 </div>
 
                 <div class="card bg-light " style="margin-top: 10px; padding: 3%; ">
                     <div class="card-block">
                         <div class="commentHeader">
-                                <div class="d-flex justify-content-between ">
-                                        <h1>Comments</h1>
-                                        <% if(currentUser){ %>
-                                        <a class="btn btn-success btn-lg" onclick="commentBox()">Add a review</a>
-                                        <% } %>
-                                </div>
+                            <div class="d-flex justify-content-between ">
+                                <h1>Comments</h1>
+                                <% if(currentUser){ %>
+                                    <a class="btn btn-success btn-lg" onclick="commentBox()">Add a review</a>
+                                    <% } %>
+                            </div>
                         </div>
-                        
+
                         <% campground.comments.forEach(function(comment){ %>
                             <hr class="hrstyle">
                             <div class="row comments">
                                 <div class="col-md-1">
                                     <div class="commentPhoto">
-                                            <img src="<%= profileImage %>" alt="">
+                                        <img src="<%= profileImage %>" alt="">
                                     </div>
                                 </div>
                                 <div class="col-md-11">
