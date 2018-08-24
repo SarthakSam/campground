@@ -1,8 +1,9 @@
-<% include ../partials/header %>
-<div class="container">
+<% include ../partials/header %>   
+<div class="container" id="profilePage">
     <div class="row">
         <div class="col-md-12 coverPhoto" >
-            <img src="https://res.cloudinary.com/bvcoe/image/upload/v1531059013/samples/landscapes/beach-boat.jpg" alt="Unable to load">
+            <img src="<%= currentUser.coverphoto %>" alt="https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg">
+            <button class="btn btn-primary changeCoverPhotoButton">Change Cover Photo</button>
             <div class="profilePhoto">
                 <img src="https://res.cloudinary.com/bvcoe/image/upload/v1531062014/aykhz4pkalyej0lmngmn.jpg" alt="">
             </div>
@@ -34,7 +35,7 @@
                             <%= moment(campground.createdAt).fromNow() %>
                             <% if(campground.info) %>
                             <p><%= campground.info.substring(0,50) %>...</p>
-                            <a class="btn btn-outline-primary" href="/campgrounds/<%= campground._id %>">Read more</a>
+                            <a class="btn btn-outline-primary" href="/campgrounds/<%= campground._id %>">Read more ></a>
                         </div>
                     </div>
                 </div>  

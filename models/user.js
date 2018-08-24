@@ -12,8 +12,8 @@ let userSchema = new mongoose.Schema({
     dob: Date,
     gender: String,
     about: String,
-    profilePhoto: String,
-    coverPhoto: String
+    profilephoto: String,
+    coverphoto: String
 });
 
 userSchema.plugin(passportLocalMongoose);
