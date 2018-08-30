@@ -4,11 +4,12 @@
 //======================
 
 const route = require('express').Router();
-let User = require('../models/user'),
-  Campground = require('../models/campgrounds'),
-  middleware = require('../middleware'),
-  multer = require('../middleware/multer'),
-  passport = require('passport');
+let   Notif = require('../models/notification'), 
+      User = require('../models/user'),
+      Campground = require('../models/campgrounds'),
+      middleware = require('../middleware'),
+      multer = require('../middleware/multer'),
+      passport = require('passport');
 
 route.get('/', (req, res) => {
   res.render('homepage');
@@ -21,9 +22,9 @@ route.get('/signup', (req, res) => {
 
 route.post('/signup', (req, res) => {
   // eval(require('locus'));
-  if(!req.body.email||!req.body.username){
+  if (!req.body.email || !req.body.username) {
     console.log("Missing credentials")
-    req.flash("error","Missing credentials");
+    req.flash("error", "Missing credentials");
     return res.redirect("/signup");
   }
   User.register(new User({ email: req.body.email, username: req.body.username }), req.body.password, function (err, user) {
@@ -187,8 +188,55 @@ route.post('/reset/:token', function (req, res) {
   });
 });
 
-route.post('/admin',(req,res)=>{
+route.post('/admin', (req, res) => {
   res.send("admin")
 });
+
+route.get('/unreadNotifications', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.send({ status: 404, message: "No user is authenticated" });
+  }
+  Notif.find({}).where('notificationFor').equals(req.user._id).where('read').equals(false).populate("notificationBy").exec((err, unreadNotifications) => {
+    if (err || !unreadNotifications) {
+      res.send({ status: 404, notifications: "Something went wrong" });
+    }
+    else {
+      Notif.find({}).where('notificationFor').equals(req.user._id).exec((err, notifications) => {
+        if (err) {
+          res.send({ status: 404, notifications: "Something went wrong" });
+        }
+        else {
+          res.send({ status: 200,  notifications , unreadNotifications});
+        }
+      });
+    }
+  });
+});
+
+route.get('/notifications', middleware.isAuthenticated, (req, res) => {
+  Notif.find({}).where('notificationFor').equals(req.user._id).populate("notificationBy").exec((err, notifications) => {
+    if (err) {
+      // console.log("Unable to fetch notifications",err);
+      req.flash("error", "Unable to fetch notifications");
+    }
+    else {
+      // console.log(notifications);
+    }
+    res.render('users/notifications', { notifications });
+  });
+});
+
+route.put('/markasread/:id', (req, res) => {
+  Notif.findByIdAndUpdate(req.params.id, { read: true }, (err, updatedNotification) => {
+    if (err) {
+      console.log("unable to mark as read");
+    }
+    else{
+      console.log("markedAsRead")
+    }
+  });
+  res.send("yo");
+});
+
 
 module.exports = { route };

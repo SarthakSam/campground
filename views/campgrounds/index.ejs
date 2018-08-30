@@ -2,17 +2,14 @@
 
 <div class="container">
          <header class="jumbotron ">
-
-                <div class="container">
-                    <h1>Welcome to Camping Grounds and Trekking spots</h1>
-                    <p>View the camping places and trekking spots people have have shared from all over the world </p>
-                    <p> <a class= "btn btn-primary btn-lg" href="/campgrounds/new">CREATE NEW CAMPGROUND</a> </p>
-                </div> 
+                    <h1>Welcome to POSTIT!!!!</h1>
+                    <p>View the posts about famous places that people have travelled and shared their experiences from all over the world </p>
+                    <p> <a class= "btn btn-primary btn-lg" href="/campgrounds/new">CREATE NEW POST</a> </p>
          </header>
          
          <div class="row" >
                <% if(searchMade&&info.length===0){ %>
-                    <h2>Sorry, No campground found with this name or this author name!!</h2>
+                    <h2>Sorry, No post found with this name or this author name!!</h2>
                <%  }   %>     
                 <% info.forEach(function(camp){ %>
                     <div class = "col-lg-4 col-sm-6 campgroundCardHolder ">

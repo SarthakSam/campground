@@ -13,8 +13,11 @@ let userSchema = new mongoose.Schema({
     gender: String,
     about: String,
     profilephoto: String,
-    coverphoto: String
+    coverphoto: String 
 });
 
 userSchema.plugin(passportLocalMongoose);
-module.exports = mongoose.model('User',userSchema);
+
+let User =  mongoose.model('User',userSchema);
+
+module.exports = User;

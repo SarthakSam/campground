@@ -1,0 +1,24 @@
+<% include ../partials/header %>
+
+    <div class="notificationsPage">
+        <h1 style="text-align: center;">Your Notifications:
+            <%= currentUser.username %>
+        </h1>
+        <hr>
+        <% if(notifications){ %>
+            <ul class="notificationsContainer">
+                <% notifications.forEach(function(notif){  %>
+                    <div>
+                        <li>
+                            <div><img src="<%= notif.notificationBy.profilephoto %>"></div>
+                            <a href="/campgrounds/<%= notif.post.id %>" class="readNotifications"><%= notif.notificationBy.username %> commented on your post
+                                    <%= notif.post.name  %></a>
+                            <span><%= moment(notif.createdAt).fromNow() %></span>
+                        </li>
+                    </div>
+
+                    <% }) %>
+            </ul>
+            <% } %>
+    </div>
+    <% include ../partials/footer %>

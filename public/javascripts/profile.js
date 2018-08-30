@@ -9,7 +9,7 @@ $(document).ready(function () {
                 "<div class='form-group'><input type='file' class='form-control' name='image' required></div>" +
                 "<div class='form-group'><input class='btn btn-info btn-block' type='submit'></div></form></div>");
         }
-        let crossIcon = $('i.fas');
+        let crossIcon = $('i.fa-backspace');
         if (crossIcon[0]) {
             crossIcon[0].addEventListener('click', function () {
                 let profilePageUpload = $('.profilePageUpload')[0];

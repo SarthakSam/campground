@@ -7,8 +7,7 @@
                     <li class="list-group-item">Category 2</li>
                     <li class="list-group-item">Category 3</li>
                 </ul>
-                <!-- <div class="card "> -->
-                <!-- <div class="card-body"> -->
+    
                 <%  if(campground.navigationPosition){ %>
                     <div class="mapHolder">
                         <div class="image-top" id="map" style="height: 200px; width: 100%;"></div>
@@ -20,9 +19,9 @@
                             <form id="locationSubmitForm">
                                 <div class="form-group">
                                     <%  if(campground.navigationPosition){ %>
-                                        <label for="location">EDIT LOCATION CAMPGROUND</label>
+                                        <label for="location">EDIT LOCATION OF PLACE</label>
                                         <% }else{ %>
-                                            <label for="location">ADD LOCATION CAMPGROUND</label>
+                                            <label for="location">ADD LOCATION OF PLACE</label>
                                             <% }  %>
                                                 <input id="location" type="text" name="location" class="form-control" placeholder="Enter location" required>
                                 </div>
@@ -78,7 +77,7 @@
                     <div class="card-block">
                         <div class="commentHeader">
                             <div class="d-flex justify-content-between ">
-                                <h1>Comments</h1>
+                                <h1>Comments<i class="fas fa-comment"></i></h1>
                                 <% if(currentUser){ %>
                                     <a class="btn btn-success btn-lg" onclick="commentBox()">Add a review</a>
                                     <% } %>

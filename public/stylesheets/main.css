@@ -1,3 +1,8 @@
+/* body{
+    height: 100%;
+    width: 100%;
+} */
+
 #navbarSupportedContent{
     background:rgba(23,162,184,0.8);
 }
@@ -23,7 +28,7 @@
  }
 
  .container {
-     margin-top:  10px; 
+     margin-top:  8vh;; 
  }
 
  .mapHolder{
@@ -125,7 +130,7 @@
 .profilePhoto img{
     height: 100%;
     width: 100%;
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmtAD4XW7ZlAu9QYqomAGm_r8XrAcz-oOBNF3u4lH-F7CAdsib")
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmtAD4XW7ZlAu9QYqomAGm_r8XrAcz-oOBNF3u4lH-F7CAdsib");
 }
 
 .profilePosts{
@@ -177,7 +182,7 @@
     border: none;
 }
 
-.fas,.fa{
+i.fa-backspace{
   position: absolute;
   right: 0;  
   top:0;
@@ -190,4 +195,75 @@
     right: 0;
     width: 140px;
     bottom: 0;
+}
+
+.notificationBox{
+    position: absolute;
+    margin-top: 2vh;
+    background: white;
+    border: 5px solid rgb(40,70,230);
+    width: 40vh;
+    z-index:1;
+    color: black;
+    font-weight: 500;
+    text-align: center;
+}
+
+.notificationBox ul{
+    padding: 0;
+    list-style: none;
+    width: 100%;
+}
+
+.notificationsPage{
+    width: 60%;
+    margin: 5vh auto;
+}
+
+.notificationsContainer{
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.notificationsContainer  li{
+       display: flex; 
+       border-bottom: 1px solid grey;
+       padding: 3px;
+       width: 100%; 
+}
+
+.notificationsContainer li div{
+    width: 40px;
+    height: 40px;
+}
+
+.notificationsContainer li div img{
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat; 
+    background-size: 100% 100%;
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmtAD4XW7ZlAu9QYqomAGm_r8XrAcz-oOBNF3u4lH-F7CAdsib");
+    border-radius: 40px;
+}
+
+ul.notificationsContainer span{
+    font-size:  15px; 
+}
+
+.unReadNotifications{
+    background: #edf2fa;
+    width: 100%;
+}
+
+.readNotifications{
+    text-decoration: none;
+    padding: 10px;
+    color: black;
+    width: 75%;
+}
+
+ul.notificationsContainer div :hover{
+    background: #b4c6e4;   
 }

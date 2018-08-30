@@ -29,7 +29,7 @@ route.get('/', (req, res) => {
                 {name: regex},
                 {"postedBy.username": regex}
             ]}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
-            Campground.find({$or: [{name: regex},{"postedBy.username": regex}]}).count().exec(function (err, count) {
+            Campground.find({$or: [{name: regex},{"postedBy.username": regex}]}).countDocuments().exec(function (err, count) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -46,7 +46,7 @@ route.get('/', (req, res) => {
     }
     else{
         Campground.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
-            Campground.count().exec(function (err, count) {
+            Campground.countDocuments().exec(function (err, count) {
                 if (err) {
                     console.log(err);
                 } else {

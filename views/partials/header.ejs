@@ -24,11 +24,12 @@
   <script type="text/javascript" src="/javascripts/maps.js"></script>
   <script type="text/javascript" src="/javascripts/comments.js"></script>
   <script type="text/javascript" src="/javascripts/profile.js"></script>
+  <script type="text/javascript" src="/javascripts/notification.js"></script>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-info " style="padding: 0 10%;">
-    <a class="navbar-brand" href="/">YelpCamp</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top" style="padding: 0 10%;">
+    <a class="navbar-brand" href="/">PostIt</a>
     <a class="navbar-brand <%= typeof page !== 'undefined' && page === 'home' ? 'activePage' : '' %>" href="/campgrounds">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
       aria-expanded="false" aria-label="Toggle navigation">
@@ -53,8 +54,12 @@
           </li>
           <% } else {  %>
             <li class="nav-item ">
+              <a class="nav-link <%= typeof page !== 'undefined' && page === 'notification' ? 'activePage' : '' %> <%= typeof page !== 'undefined' && page === 'notification' ? 'active' : '' %>">
+                <i class="fas fa-bell"></i></a>
+            </li>
+            <li class="nav-item ">
               <a class="nav-link <%= typeof page !== 'undefined' && page === 'profile' ? 'activePage' : '' %> <%= typeof page !== 'undefined' && page === 'profile' ? 'active' : '' %>"
-                href="/profile/<%= currentUser._id %>">Signed in as <span id="username"><%= currentUser.username %></span></a>
+                href="/profile/<%= currentUser._id %>">Signed in: <span id="username"><%= currentUser.username %></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link " href="/signout">signout</a>
