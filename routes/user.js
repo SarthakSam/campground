@@ -188,8 +188,16 @@ route.post('/reset/:token', function (req, res) {
   });
 });
 
-route.post('/admin', (req, res) => {
-  res.send("admin")
+route.post('/admin',middleware.isAuthenticated, (req, res) => {
+  Notif.create({type: 2, notificationFor: "5b7fa7912136d731b3899c44", notificationBy: req.user._id},(err,notification)=>{
+      if(err||!notification){
+        req.flash("error","Some error occured while processing your request");
+      }
+      else{
+        req.flash("success","Your request has been sent to the moderator");
+      }
+      res.redirect("back");
+  });  
 });
 
 route.get('/unreadNotifications', (req, res) => {

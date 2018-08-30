@@ -11,9 +11,21 @@
                     <div>
                         <li>
                             <div><img src="<%= notif.notificationBy.profilephoto %>"></div>
-                            <a href="/campgrounds/<%= notif.post.id %>" class="readNotifications"><%= notif.notificationBy.username %> commented on your post
-                                    <%= notif.post.name  %></a>
-                            <span><%= moment(notif.createdAt).fromNow() %></span>
+                            <% if(notif.type==1){ %>
+                                <a href="/campgrounds/<%= notif.post.id %>" class="readNotifications"><%= notif.notificationBy.username %> commented on your
+                                        post
+                                        <%= notif.post.name  %></a>
+                                <% } %>
+                                    <% if(notif.type==2){  %>
+                                        <a href="/profile/<%= notif.notificationBy.id %>" class="readNotifications"><%= notif.notificationBy.username %> has
+                                                requested to become admin.</a>
+                                        <% }  %>
+                                            <% if(notif.type==3){  %>
+                                                <a href="/campgrounds/<%= notif.post.id %>" class="readNotifications"><%= notif.notificationBy.username %>
+                                                    liked your post
+                                                        <%= notif.post.name  %></a>
+                                                <% }   %>
+                                                    <span><%= moment(notif.createdAt).fromNow() %></span>
                         </li>
                     </div>
 

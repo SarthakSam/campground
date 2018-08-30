@@ -8,7 +8,7 @@ $(document).ready(function () {
 
                 $('i.fa-bell').append('<div class="notificationBox"><ul></ul></div>');
                 unreadNotifications.forEach(function (notification) {
-                    $('.notificationBox ul').append('<li><a class="btn btn-light btn-block" href = /campgrounds/'+notification.post.id+'>' + notification.notificationBy.username + " commented on your post " + notification.post.name + '</a></li>');
+                    $('.notificationBox ul').append('<li>'+generateNotificationString(notification)+'</li>');
                 });
                 $('.notificationBox ul').append('<a href="/notifications/" class="btn btn-link">Show all notifications</a>');
                 let notificationLis = $('.notificationBox ul li');
@@ -19,6 +19,22 @@ $(document).ready(function () {
                 }
             }
         });
+
+   function generateNotificationString(notification){
+            let str;
+            if(notification.type==1){
+                str = '<a class="btn btn-light btn-block" href = /campgrounds/'+notification.post.id+'>' + notification.notificationBy.username + " commented on your post " + notification.post.name + '</a>';
+            }
+            else if(notification.type==2){
+                str = '<a class="btn btn-light btn-block" href = /profile/'+notification.notificationBy+'>' + notification.notificationBy.username + ' has requested to become admin</a>';
+            }
+            else{
+                str = '<a class="btn btn-light btn-block" href = /campgrounds/'+notification.post.id+'>' + notification.notificationBy.username + " liked your post " + notification.post.name + '</a>';
+            }
+            console.log(str);
+            return str;
+   } 
+        
 
     let markAsRead = function (id) {
         $.post("/markasread/"+id+"?_method=PUT",function(res){
