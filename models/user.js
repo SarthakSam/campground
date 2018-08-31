@@ -13,7 +13,8 @@ let userSchema = new mongoose.Schema({
     gender: String,
     about: String,
     profilephoto: String,
-    coverphoto: String 
+    coverphoto: String,
+    isAdmin: Boolean 
 });
 
 userSchema.plugin(passportLocalMongoose);

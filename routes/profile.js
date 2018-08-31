@@ -59,7 +59,7 @@ route.put('/:id/upload/:choice', middleware.isAuthenticated, multer.upload.singl
     else {
         if (req.file) {
             multer.cloudinary.uploader.upload(req.file.path, function (result) {
-                if (!result) {
+                if (!result.secure_url) {
                     req.flash("error", "unable to upload photo");
                     res.redirect('/profile/' + req.params.id);
                 }

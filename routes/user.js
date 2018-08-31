@@ -34,7 +34,7 @@ route.post('/signup', (req, res) => {
     }
     else {
       passport.authenticate('local')(req, res, function () {
-        req.flash('success', "welcome to yelpcamp " + req.body.username);
+        req.flash('success', "welcome to postit " + req.body.username);
         res.redirect('/campgrounds');
       });
     }
@@ -188,7 +188,7 @@ route.post('/reset/:token', function (req, res) {
   });
 });
 
-route.post('/admin',middleware.isAuthenticated, (req, res) => {
+route.get('/admin',middleware.isAuthenticated, (req, res) => {
   Notif.create({type: 2, notificationFor: "5b7fa7912136d731b3899c44", notificationBy: req.user._id},(err,notification)=>{
       if(err||!notification){
         req.flash("error","Some error occured while processing your request");
@@ -198,6 +198,34 @@ route.post('/admin',middleware.isAuthenticated, (req, res) => {
       }
       res.redirect("back");
   });  
+});
+
+route.post('/admin/:id',middleware.isAuthenticated, (req, res) => {
+  if(!req.user._id.equals("5b7fa7912136d731b3899c44")){
+        req.flash("error","You are not authorised to do it");
+        res.redirect('back');
+  }
+  else{
+     User.findById(req.params.id,(err,user)=>{
+        if(err||!user){
+          req.flash("error","Something went wrong");
+          res.redirect('back');
+        }
+        else{
+          user.isAdmin = !user.isAdmin;
+          user.save();
+          if(user.isAdmin){
+            req.flash("success",user.username + "is now a admin");
+            Notif.create({type: 3, notificationFor: req.params.id, notificationBy: "5b7fa7912136d731b3899c44"},(err,notification)=>{});  
+          }
+          else{
+            req.flash("success",user.username + "is removed from admin role");
+
+          }
+          res.redirect('/campgrounds'); 
+        }
+     }); 
+  }
 });
 
 route.get('/unreadNotifications', (req, res) => {

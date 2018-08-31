@@ -26,10 +26,10 @@ $(document).ready(function () {
                 str = '<a class="btn btn-light btn-block" href = /campgrounds/'+notification.post.id+'>' + notification.notificationBy.username + " commented on your post " + notification.post.name + '</a>';
             }
             else if(notification.type==2){
-                str = '<a class="btn btn-light btn-block" href = /profile/'+notification.notificationBy+'>' + notification.notificationBy.username + ' has requested to become admin</a>';
+                str = '<a class="btn btn-light btn-block" href = /profile/'+notification.notificationBy._id+'>' + notification.notificationBy.username + ' has requested to become admin</a>';
             }
             else{
-                str = '<a class="btn btn-light btn-block" href = /campgrounds/'+notification.post.id+'>' + notification.notificationBy.username + " liked your post " + notification.post.name + '</a>';
+                str = '<a class="btn btn-light btn-block">You are now an admin</a>';
             }
             console.log(str);
             return str;
@@ -58,7 +58,6 @@ $(document).ready(function () {
 
     function notificationsPage(){
         let lis = $('ul.notificationsContainer li');
-        console.log(lis);
         if(lis.length>0){
             for (let i = 0; i < lis.length; i++) {
                 if(!notificationContent[i].read){
@@ -81,7 +80,7 @@ $(document).ready(function () {
             container[0].parentNode.removeChild(container[0]);
         }
     });
-    setInterval(getNotifications, 1000 * 60*5);
+    setInterval(getNotifications, 1000 * 60*3);
     getNotifications();
  
 });

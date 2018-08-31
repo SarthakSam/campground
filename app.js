@@ -15,12 +15,14 @@ nodemailer              = require('nodemailer');
 routes                  = require('./routes'),
 bcrypt                  = require('bcrypt-nodejs'),
 async                   = require('async'),
-crypto                  = require('crypto');
+crypto                  = require('crypto'),
+expressSanitizer        = require('express-sanitizer');
 
 
 mongoose.connect("mongodb://localhost:27017/postit_db", { useNewUrlParser: true });
 
 app.locals.moment = require('moment');
+app.use(expressSanitizer());
 app.set('views', __dirname + '/views');
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true }));
@@ -56,4 +58,4 @@ app.use(function(req,res,next){
 app.use(routes.route);
 
 
-app.listen(3001,() => {console.log("server listening at 3000")})
+app.listen(3000,() => {console.log("server listening at 3000")})

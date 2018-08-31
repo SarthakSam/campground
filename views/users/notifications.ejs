@@ -21,9 +21,7 @@
                                                 requested to become admin.</a>
                                         <% }  %>
                                             <% if(notif.type==3){  %>
-                                                <a href="/campgrounds/<%= notif.post.id %>" class="readNotifications"><%= notif.notificationBy.username %>
-                                                    liked your post
-                                                        <%= notif.post.name  %></a>
+                                                <a href="/profile/<%= notif.notificationBy.id %>" class="readNotifications">You are now an admin.</a>
                                                 <% }   %>
                                                     <span><%= moment(notif.createdAt).fromNow() %></span>
                         </li>

@@ -2,6 +2,7 @@
 <div class="container" id="profilePage">
     <div class="row">
         <div class="col-md-12 coverPhoto" >
+            <span class="profilePageUsername" ><%= profileOfUser.username %></span>
             <img src="<%= profileOfUser.coverphoto %>">
             <% if(profileOfUser._id.equals(currentUser._id)){ %>
             <button class="btn btn-primary changeCoverPhotoButton">Change Cover Photo</button>
@@ -16,7 +17,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-4 aboutMeCard">
+        <div class="col-md-4 aboutMeCard" style="margin-bottom: 10px;">
             <h1>About Me</h1>
             <p><strong>First Name </strong><%= profileOfUser.firstname %></p>
             <p><strong>Last Name </strong><%= profileOfUser.lastname %></p>
@@ -24,11 +25,26 @@
             <p><strong>Date Of Birth </strong><%= profileOfUser.dob %></p>
             <p><strong>Gender </strong><%= profileOfUser.gender %></p>
             <p><strong>About Me </strong><%= profileOfUser.about %></p>
+            <% if(profileOfUser.isAdmin){ %>
+            <p>He is an admin.</p>
+            <% } %>
             <% if(profileOfUser._id.equals(currentUser._id)){ %>
             <a href="/profile/<%= profileOfUser._id %>/edit/" class="btn btn-outline-primary">Edit profile Info </a>
-            <form action="/admin" method="POST" style="display:inline;">
-            <button class="btn btn-outline-info">Make me admin</button>
-            </form>
+            <% if(!currentUser.isAdmin){ %>
+            <a href="/admin/" class="btn btn-outline-info">Make me admin </a>
+            <% } %>
+            <% } %>
+            <%  if(currentUser._id.equals("5b7fa7912136d731b3899c44") && !profileOfUser._id.equals("5b7fa7912136d731b3899c44")){  %>
+               <% if(!profileOfUser.isAdmin){  %>
+                <form style="display: inline;" method="POST" action="/admin/<%= profileOfUser.id %>">
+                    <button class="btn btn-outline-success ">Make Him Admin</button>
+                    </form>      
+               <% } %>
+               <% if(profileOfUser.isAdmin){  %>
+                <form style="display: inline;" method="POST" action="/admin/<%= profileOfUser.id %>">
+                    <button class="btn btn-outline-success ">remove as Admin</button>
+                    </form>      
+               <% } %>
             <% } %>
         </div>
         <div class="col-md-8 profilePosts">

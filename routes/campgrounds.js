@@ -64,7 +64,7 @@ route.get('/', (req, res) => {
 });
 
 route.post('/', middleware.isAuthenticated,multer.upload.single('image'),(req, res) => {
-    let name = req.body.name, image = req.body.imageURL, info = req.body.info, price = req.body.price;
+    let name = req.body.name, image = req.body.imageURL, info = req.sanitize(req.body.info) , price = req.body.price;
     if(!image){
         image = 'https://res.cloudinary.com/bvcoe/image/upload/v1534844604/noimage.png';
     }
@@ -125,6 +125,7 @@ route.get('/:id/edit', middleware.isAuthenticated, middleware.isUserAndCreatorSa
 });
 
 route.put('/:id', middleware.isAuthenticated, middleware.isUserAndCreatorSame,multer.upload.single('image'), (req, res) => {
+    req.body.campground.info = req.sanitize(req.body.campground.info);
     let id = req.params.id,
         campground = req.body.campground;
         if(req.body.imageURL)

@@ -267,3 +267,13 @@ ul.notificationsContainer span{
 ul.notificationsContainer div :hover{
     background: #b4c6e4;   
 }
+
+.profilePageUsername{
+    position: absolute;
+    font-size: 60px;
+    /* bottom: 10px;  */
+    bottom: 15px;
+    left: 185px;
+    color: white;
+    font-weight: 700;
+}

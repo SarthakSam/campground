@@ -39,7 +39,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h5 class="card-title ">
-                                        <a href="">
+                                        <a style="text-transform: uppercase; font-weight: 6 00; font-size: 40px; font-family: 'Roboto Mono', monospace;" href="">
                                             <%= campground["name"] %>
                                         </a>
                                     </h5>
@@ -47,10 +47,11 @@
                                         <%= campground.price %>/Night
                                     </h5>
                                 </div>
-
-                                <p class="card-text">
-                                    <%= campground.info %>
+                                <br>
+                                <p class="card-text" style="font-family: 'Josefin Sans', sans-serif; font-size: 20px; font-weight: 500;">
+                                    <%- campground.info %>
                                 </p>
+                                <hr>
                                 <div class="d-flex justify-content-between">
                                     <em>POSTED BY:
                                         <%= campground.postedBy.username %>,
@@ -94,10 +95,10 @@
                                 </div>
                                 <div class="col-md-11">
                                     <div class="d-flex justify-content-between">
-                                        <strong>
+                                        <a href="/profile/<%= comment.author.id %>"><strong>
                                             <%= comment.author.name %>
-                                        </strong>
-                                        <span><%= moment(comment.createdAt).fromNow() %></span>
+                                        </strong></a>
+                                    <span><%= moment(comment.createdAt).fromNow() %></span>
                                     </div>
                                     <p>
                                         <%= comment.text %>
