@@ -58,4 +58,13 @@ app.use(function(req,res,next){
 app.use(routes.route);
 
 
-app.listen(3000,() => {console.log("server listening at 3000")})
+app.set('port',process.env.PORT || 3000)
+app.listen(app.get('port'), function(err) {
+
+    if (!err)
+        console.log("Server started at localhost:3000");
+    else {
+        console.log("server not listening")
+        console.log(err)
+    }
+});

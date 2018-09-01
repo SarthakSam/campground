@@ -1,6 +1,10 @@
 {
   "name": "project",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.4.1",
+    "npm": "6.4.1"
+  },
   "description": "",
   "main": "app.js",
   "scripts": {
