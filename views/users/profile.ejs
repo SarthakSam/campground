@@ -34,7 +34,7 @@
             <a href="/admin/" class="btn btn-outline-info">Make me admin </a>
             <% } %>
             <% } %>
-            <%  if(currentUser._id.equals("5b7fa7912136d731b3899c44") && !profileOfUser._id.equals("5b7fa7912136d731b3899c44")){  %>
+            <%  if(currentUser._id.equals("5b8a5cf1c1367f3340b121bc") && !profileOfUser._id.equals("5b8a5cf1c1367f3340b121bc")){  %>
                <% if(!profileOfUser.isAdmin){  %>
                 <form style="display: inline;" method="POST" action="/admin/<%= profileOfUser.id %>">
                     <button class="btn btn-outline-success ">Make Him Admin</button>

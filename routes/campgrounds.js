@@ -12,18 +12,6 @@ route.get('/', (req, res) => {
 
     if(req.query.searchQuery){
         const regex = new RegExp(escapeRegex(req.query.searchQuery), 'gi');
-        // Campground.find({ $or: [
-        //     {name: regex},
-        //     {"postedBy.username": regex}
-        // ]}, function (error, campgrounds) {
-        //     if (error) {
-        //         console.log("Some error occured while fetching all campgrounds");
-        //     }
-        //     else {
-        //         res.render('campgrounds/index', { info: campgrounds, page: "home" });
-        //     }
-        // });  
-
         //Could have also used mongoose-paginate
         Campground.find({$or: [
                 {name: regex},

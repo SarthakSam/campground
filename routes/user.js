@@ -189,7 +189,7 @@ route.post('/reset/:token', function (req, res) {
 });
 
 route.get('/admin',middleware.isAuthenticated, (req, res) => {
-  Notif.create({type: 2, notificationFor: "5b7fa7912136d731b3899c44", notificationBy: req.user._id},(err,notification)=>{
+  Notif.create({type: 2, notificationFor: "5b8a5cf1c1367f3340b121bc", notificationBy: req.user._id},(err,notification)=>{
       if(err||!notification){
         req.flash("error","Some error occured while processing your request");
       }
@@ -201,7 +201,7 @@ route.get('/admin',middleware.isAuthenticated, (req, res) => {
 });
 
 route.post('/admin/:id',middleware.isAuthenticated, (req, res) => {
-  if(!req.user._id.equals("5b7fa7912136d731b3899c44")){
+  if(!req.user._id.equals("5b8a5cf1c1367f3340b121bc")){
         req.flash("error","You are not authorised to do it");
         res.redirect('back');
   }
@@ -216,7 +216,7 @@ route.post('/admin/:id',middleware.isAuthenticated, (req, res) => {
           user.save();
           if(user.isAdmin){
             req.flash("success",user.username + "is now a admin");
-            Notif.create({type: 3, notificationFor: req.params.id, notificationBy: "5b7fa7912136d731b3899c44"},(err,notification)=>{});  
+            Notif.create({type: 3, notificationFor: req.params.id, notificationBy: "5b8a5cf1c1367f3340b121bc"},(err,notification)=>{});  
           }
           else{
             req.flash("success",user.username + "is removed from admin role");

@@ -19,7 +19,8 @@ crypto                  = require('crypto'),
 expressSanitizer        = require('express-sanitizer');
 
 
-mongoose.connect("mongodb://localhost:27017/postit_db", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost:27017/postit_db", { useNewUrlParser: true });
+mongoose.connect("mongodb://sarthak:sarthak1@ds141872.mlab.com:41872/postit", { useNewUrlParser: true }); 
 
 app.locals.moment = require('moment');
 app.use(expressSanitizer());
