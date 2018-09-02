@@ -30,11 +30,11 @@
             <% } %>
             <% if(profileOfUser._id.equals(currentUser._id)){ %>
             <a href="/profile/<%= profileOfUser._id %>/edit/" class="btn btn-outline-primary">Edit profile Info </a>
-            <% if(!currentUser.isAdmin){ %>
+            <% if(!currentUser.isAdmin&&!currentUser.isModerator){ %>
             <a href="/admin/" class="btn btn-outline-info">Make me admin </a>
             <% } %>
             <% } %>
-            <%  if(currentUser._id.equals("5b8a5cf1c1367f3340b121bc") && !profileOfUser._id.equals("5b8a5cf1c1367f3340b121bc")){  %>
+            <%  if(currentUser.isModerator && !profileOfUser.isModerator){  %>
                <% if(!profileOfUser.isAdmin){  %>
                 <form style="display: inline;" method="POST" action="/admin/<%= profileOfUser.id %>">
                     <button class="btn btn-outline-success ">Make Him Admin</button>
@@ -43,7 +43,7 @@
                <% if(profileOfUser.isAdmin){  %>
                 <form style="display: inline;" method="POST" action="/admin/<%= profileOfUser.id %>">
                     <button class="btn btn-outline-success ">remove as Admin</button>
-                    </form>      
+                </form>      
                <% } %>
             <% } %>
         </div>
@@ -55,7 +55,8 @@
                         <div class="col-md-4">
                             <img src="<%= campground.image %>" alt="">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-7 profilePageCard" >
                             <h2><%= campground.name %></h2>
                             <%= moment(campground.createdAt).fromNow() %>
                             <% if(campground.info) %>

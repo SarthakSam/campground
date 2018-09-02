@@ -140,13 +140,9 @@
 } 
 
 
-.individualPost{
-    height: 20vh;
-}
-
 .individualPost img{
-    height: 18vh;
-    width: 15vw;
+    height: 180px;
+    width: 275px;
     margin: 10px auto;
 }
 

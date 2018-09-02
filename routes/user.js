@@ -189,19 +189,26 @@ route.post('/reset/:token', function (req, res) {
 });
 
 route.get('/admin',middleware.isAuthenticated, (req, res) => {
-  Notif.create({type: 2, notificationFor: "5b8a5cf1c1367f3340b121bc", notificationBy: req.user._id},(err,notification)=>{
-      if(err||!notification){
+  User.findOne().where('isModerator').equals('true').exec((err,user)=>{
+      if(err){
         req.flash("error","Some error occured while processing your request");
       }
       else{
-        req.flash("success","Your request has been sent to the moderator");
+        Notif.create({type: 2, notificationFor: user._id, notificationBy: req.user._id},(err,notification)=>{
+          if(err||!notification){
+            req.flash("error","Some error occured while processing your request");
+          }
+          else{
+            req.flash("success","Your request has been sent to the moderator");
+          }
+          res.redirect("back");
+      });
       }
-      res.redirect("back");
   });  
 });
 
 route.post('/admin/:id',middleware.isAuthenticated, (req, res) => {
-  if(!req.user._id.equals("5b8a5cf1c1367f3340b121bc")){
+  if(!req.user.isModerator){
         req.flash("error","You are not authorised to do it");
         res.redirect('back');
   }
@@ -216,11 +223,10 @@ route.post('/admin/:id',middleware.isAuthenticated, (req, res) => {
           user.save();
           if(user.isAdmin){
             req.flash("success",user.username + "is now a admin");
-            Notif.create({type: 3, notificationFor: req.params.id, notificationBy: "5b8a5cf1c1367f3340b121bc"},(err,notification)=>{});  
+            Notif.create({type: 3, notificationFor: req.params.id, notificationBy: req.user._id},(err,notification)=>{});  
           }
           else{
-            req.flash("success",user.username + "is removed from admin role");
-
+            req.flash("success",user.username + " is removed from admin role");
           }
           res.redirect('/campgrounds'); 
         }
