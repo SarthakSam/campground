@@ -28,8 +28,11 @@ $(document).ready(function () {
             else if(notification.type==2){
                 str = '<a class="btn btn-light btn-block" href = /profile/'+notification.notificationBy._id+'>' + notification.notificationBy.username + ' has requested to become admin</a>';
             }
-            else{
+            else if(notification.type==3){
                 str = '<a class="btn btn-light btn-block">You are now an admin</a>';
+            }
+            else{
+                str = '<a class="btn btn-light btn-block" href = /campgrounds/'+notification.post.id+'>' + notification.notificationBy.username + " liked your comment on the post " + notification.post.name + '</a>';
             }
             console.log(str);
             return str;

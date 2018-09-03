@@ -23,6 +23,11 @@
                                             <% if(notif.type==3){  %>
                                                 <a href="/profile/<%= notif.notificationBy.id %>" class="readNotifications">You are now an admin.</a>
                                                 <% }   %>
+                                                <% if(notif.type==4){ %>
+                                                    <a href="/campgrounds/<%= notif.post.id %>" class="readNotifications"><%= notif.notificationBy.username %> liked your
+                                                            comment on the post
+                                                            <%= notif.post.name  %></a>
+                                                    <% } %>
                                                     <span><%= moment(notif.createdAt).fromNow() %></span>
                         </li>
                     </div>

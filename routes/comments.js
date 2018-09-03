@@ -111,6 +111,51 @@ route.delete('/:commentId', middleware.isUserAndCommentCreatorSame, (req, res) =
     });
 });
 
+route.post('/:commentId/like', middleware.isAuthenticated, (req, res) => {
+    Comment.findById(req.params.commentId, (err, comment) => {
+        if (err || !comment) {
+            res.send({ status: 404, response: "Something went wrong!!" });
+        }
+        else {
+            comment.likes.push(req.user._id);
+            comment.save();
+            if (!comment.author.id.equals(req.user._id)) {
+                Campground.findById(req.params.id, (err, campground) => {
+                    if (err || !campground) {
+                        console.log("Some error occured");
+                    }
+                    else {
+                        let obj = {};
+                        obj.type = 4;
+                        obj.post = {};
+                        obj.post.name = campground.name;
+                        obj.post.id = campground._id;
+                        obj.notificationFor = comment.author.id;
+                        obj.notificationBy = req.user._id;
+                        Notif.create(obj, (err, notif) => {
+                            // console.log(notif);
+                        });
+                    }
+                });
+            }
+            res.send({ status: 200, response: " Post liked succesfully", count: comment.likes.length });
+        }
+    });
+});
+
+route.post('/:commentId/unlike', middleware.isAuthenticated, (req, res) => {
+    Comment.findById(req.params.commentId, (err, comment) => {
+        if (err || !comment) {
+            res.send({ status: 404, response: "Something went wrong!!" });
+        }
+        else {
+            let index = comment.likes.indexOf(req.user._id);
+            comment.likes.splice(index, 1);
+            comment.save();
+            res.send({ status: 200, response: " Post liked succesfully", count: comment.likes.length });
+        }
+    });
+});
 
 
 module.exports = { route };

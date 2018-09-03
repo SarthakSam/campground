@@ -273,3 +273,10 @@ ul.notificationsContainer div :hover{
     color: white;
     font-weight: 700;
 }
+
+i.fa-award{
+    font-size: 35px;
+    color: blue;
+}
+
+
