@@ -279,4 +279,12 @@ i.fa-award{
     color: blue;
 }
 
-
+.displayLikes{
+    width: 200px;
+    position: absolute;
+    right: 0;
+    border: 1px solid lightblue;
+    background: rgba(0, 0, 0, 0.9);
+    color: rgb(250,300,300);
+    font-size: 20px;
+}

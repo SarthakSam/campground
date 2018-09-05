@@ -6,14 +6,14 @@ let commentsSchema = new mongoose.Schema({
     author: {
                id: {
                         type: mongoose.Schema.Types.ObjectId,
-                        ref: 'user'
+                        ref: 'User'
                      },
                name: String
     },
     likes: [    
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'user'  
+                ref: 'User'  
             }
             ]    
 });

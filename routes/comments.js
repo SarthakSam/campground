@@ -8,7 +8,7 @@ let Campground = require('../models/campgrounds'),
 
 route.get('/new', middleware.isAuthenticated, (req, res) => {
     Campground.findById(req.params.id, (error, campground) => {
-        if (error) {
+        if (error||!campground) {
             console.log(error);
             req.flash("error", "Some error occured");
             res.redirect('/campgrounds/' + req.params.id);
@@ -19,12 +19,22 @@ route.get('/new', middleware.isAuthenticated, (req, res) => {
     });
 });
 
+route.get('/',(req,res)=>{
+    Campground.findById(req.params.id,(err,campground)=>{
+        if(err||!campground){
+            res.send({status: 404,response: "campground not found"});
+        }
+        else{
+            res.send({status: 200,response: campground.comments });
+        }
+    });
+});
 
 route.post('/', middleware.isAuthenticated, (req, res) => {
     Campground.findById(req.params.id, (error, campground) => {
         if (error) {
             console.log(error);
-            req.flash("error", "No such campground occur");
+            req.flash("error", "No such campground exist");
             res.redirect('/campgrounds/' + req.params.id);
         }
         else {
@@ -74,7 +84,7 @@ route.get('/:commentId/edit', middleware.isUserAndCommentCreatorSame, (req, res)
     let comment = res.comment;
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
-            req.flash("error", "No such campground occur");
+            req.flash("error", "No such campground exist");
             res.redirect("back");
         }
         else {
@@ -82,6 +92,18 @@ route.get('/:commentId/edit', middleware.isUserAndCommentCreatorSame, (req, res)
         }
     });
 });
+
+route.get('/:commentId', (req, res) => {
+    Comment.findById(req.params.commentId).populate('likes').exec(function(err,comment){
+        if (err||!comment) {
+            res.send({status:404,response:"comment not found"});
+        }
+        else {
+            res.send({status:200,response:comment.likes})
+        }
+    });
+});
+
 
 route.put('/:commentId', middleware.isUserAndCommentCreatorSame, (req, res) => {
     let comment = { text: req.body.commentText };
@@ -99,17 +121,29 @@ route.put('/:commentId', middleware.isUserAndCommentCreatorSame, (req, res) => {
 });
 
 route.delete('/:commentId', middleware.isUserAndCommentCreatorSame, (req, res) => {
-    Comment.findByIdAndRemove(req.params.commentId, (err) => {
-        if (err) {
-            console.log(err);
+    Campground.findById(req.params.id,(err,campground)=>{
+        if(err||!campground){
             req.flash("error", "Unable to deleted comment");
         }
-        else {
-            req.flash("success", "Comment deleted successfully");
+        else{
+            let index = campground.comments.indexOf(req.params.commentId);
+            campground.comments.splice(index,1);
+            campground.save();
+            Comment.findByIdAndRemove(req.params.commentId, (err) => {
+                if (err) {
+                    console.log(err);
+                    req.flash("error", "Unable to deleted comment");
+                }
+                else {
+                    req.flash("success", "Comment deleted successfully");
+                }
+            });
         }
         res.redirect('/campgrounds/' + req.params.id);
     });
 });
+
+// route.get('/:commentId/like')
 
 route.post('/:commentId/like', middleware.isAuthenticated, (req, res) => {
     Comment.findById(req.params.commentId, (err, comment) => {
